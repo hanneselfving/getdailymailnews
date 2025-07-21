@@ -59,6 +59,6 @@ def get_articles_dm():
 
     # Upload to S3
     s3 = boto3.client("s3")
-    s3.upload_file("/tmp/index.html", "ec2scraperstack-scrapersitebucketa4f75f29-k3fpfcawabry", "index.html", ExtraArgs={"ContentType": "text/html", "ACL": "public-read"})
+    s3.upload_file("/tmp/index.html", "ec2scraperstack-scrapersitebucketa4f75f29-k3fpfcawabry", "index.html", ExtraArgs={"ContentType": "text/html"})
 
 get_articles_dm()
