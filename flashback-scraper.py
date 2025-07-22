@@ -38,7 +38,7 @@ try:
     response = session.get(SCRAPERAPI_URL, params=payload, timeout=10)
     response.raise_for_status()
     response.encoding = "utf-8"  # Add this line
-    soup = BeautifulSoup(response.text, "html.parser")  # Use .text instead of .content
+    soup = BeautifulSoup(response.content.decode('utf-8', errors='replace'), "html.parser")  # Use .text instead of .content
 
 
 
@@ -60,7 +60,7 @@ try:
         with open(LOCAL_PATH, "r", encoding="utf-8") as f:
             existing_html = f.read()
     except Exception:
-        existing_html = "<html><head><title>Top Commented Articles</title><style>body { font-family: sans-serif; padding: 2rem; } h1 { color: #444; } li { margin-bottom: 10px; }</style></head><body>"
+        existing_html = "<html><meta charset='utf-8'><head><title>Top Commented Articles</title><style>body { font-family: sans-serif; padding: 2rem; } h1 { color: #444; } li { margin-bottom: 10px; }</style></head><body>"
 
      # Step 4: Create new Flashback section
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
