@@ -27,7 +27,7 @@ session = requests.Session()
 retry = Retry(total=5, backoff_factor=1, status_forcelist=[502, 503, 504])
 adapter = HTTPAdapter(max_retries=retry)
 session.mount("http://", adapter)
-session.mount("https://", adapter)
+session.mount("https://", adapter) 
 
 try:
     # Step 1: Fetch page through ScraperAPI
@@ -37,7 +37,10 @@ try:
     }
     response = session.get(SCRAPERAPI_URL, params=payload, timeout=10)
     response.raise_for_status()
-    soup = BeautifulSoup(response.content, "html.parser")
+    response.encoding = "utf-8"  # Add this line
+    soup = BeautifulSoup(response.text, "html.parser")  # Use .text instead of .content
+
+
 
     # Step 2: Extract threads and reader counts
     rows = soup.find_all("tr")
