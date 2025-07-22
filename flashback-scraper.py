@@ -1,3 +1,4 @@
+
 import urllib3
 from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
@@ -9,9 +10,14 @@ import boto3
 import os
 
 # S3 config
-BUCKET_NAME = "ec2scraperstack-scrapersitebucketa4f75f29-k3fpfcawabry"
+BUCKET_NAME = "ec2scraperstack-scrapersitebucketa4f75f29-lbpem4zyqdki"
 KEY = "index.html"
 LOCAL_PATH = "/tmp/index.html"
+
+# ScraperAPI config
+SCRAPERAPI_KEY = "795b300a8c3d0a5a5bb02f06c7beea44"
+TARGET_URL = "https://www.flashback.org/nya-amnen"
+SCRAPERAPI_URL = "https://api.scraperapi.com/"
 
 # Create S3 client
 s3 = boto3.client("s3")
@@ -23,15 +29,13 @@ adapter = HTTPAdapter(max_retries=retry)
 session.mount("http://", adapter)
 session.mount("https://", adapter)
 
-# Define target URL
-url = "https://www.flashback.org/nya-amnen"
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
-}
-
 try:
-    # Step 1: Scrape page
-    response = session.get(url, headers=headers, timeout=10)
+    # Step 1: Fetch page through ScraperAPI
+    payload = {
+        'api_key': SCRAPERAPI_KEY,
+        'url': TARGET_URL
+    }
+    response = session.get(SCRAPERAPI_URL, params=payload, timeout=10)
     response.raise_for_status()
     soup = BeautifulSoup(response.content, "html.parser")
 
