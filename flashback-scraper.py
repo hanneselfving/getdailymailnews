@@ -63,7 +63,10 @@ try:
         existing_html = "<html><meta charset='utf-8'><head><title>Top Commented Articles</title><style>body { font-family: sans-serif; padding: 2rem; } h1 { color: #444; } li { margin-bottom: 10px; }</style></head><body>"
 
      # Step 4: Create new Flashback section
-    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    from zoneinfo import ZoneInfo
+
+    swedish_time = datetime.now(ZoneInfo("Europe/Stockholm"))
+    print(swedish_time.strftime("%Y-%m-%d %H:%M"))
     flashback_section = f"<!-- FLASHBACK-START -->\n<h2>Top Threads on Flashback — {now}</h2><ol>"
     for article in top_results:
         flashback_section += f"<li><b>{article['text']}</b> — {article['readers']} läsare</li>"
