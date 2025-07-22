@@ -7,9 +7,11 @@ import boto3
 
 def get_articles_dm():
     options = Options()
+    options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--headless")  # Recommended for cron usage
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=2000,2500")
 
     driver = webdriver.Chrome(options=options)
     driver.get("https://www.dailymail.co.uk/home/latest/index.html")
@@ -19,8 +21,6 @@ def get_articles_dm():
     results = []
 
     for _ in range(10):  # Scroll multiple times
-        driver.execute_script("window.scrollBy(0, 3500);")
-        time.sleep(4)
         articles = driver.find_elements(By.CSS_SELECTOR, ".article")
 
         for article in articles:
@@ -41,6 +41,12 @@ def get_articles_dm():
                 comments = 0
 
             results.append({"title": title, "comments": comments})
+            
+        print("num of articles: " + str(len(seen_titles)))
+        
+        time.sleep(1)
+        driver.execute_script("window.scrollBy(0, 2500);")
+        time.sleep(2)
 
     driver.quit()
 
@@ -54,7 +60,7 @@ def get_articles_dm():
     html += "</ol></body></html>"
 
     # Write to file
-    with open("/tmp/index.html", "w", encoding="utf-8") as f:
+    with open("/tmp/index.html", "w", encoding="utf-8") as f: #under /tmp/ in linux
         f.write(html)
 
     # Upload to S3
