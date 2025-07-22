@@ -62,17 +62,28 @@ try:
     except Exception:
         existing_html = "<html><head><title>Top Commented Articles</title><style>body { font-family: sans-serif; padding: 2rem; } h1 { color: #444; } li { margin-bottom: 10px; }</style></head><body>"
 
-    # Step 4: Append new section
+     # Step 4: Create new Flashback section
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
-    new_section = f"<h2>Top Threads on Flashback — {now}</h2><ol>"
+    flashback_section = f"<!-- FLASHBACK-START -->\n<h2>Top Threads on Flashback — {now}</h2><ol>"
     for article in top_results:
-        new_section += f"<li><b>{article['text']}</b> — {article['readers']} läsare</li>"
-    new_section += "</ol>"
-
-    if "</body></html>" in existing_html:
-        updated_html = existing_html.replace("</body></html>", new_section + "</body></html>")
+        flashback_section += f"<li><b>{article['text']}</b> — {article['readers']} läsare</li>"
+    flashback_section += "</ol>\n<!-- FLASHBACK-END -->"
+    
+    # Step 5: Inject or replace Flashback section in HTML
+    if "<!-- FLASHBACK-START -->" in existing_html and "<!-- FLASHBACK-END -->" in existing_html:
+        updated_html = re.sub(
+            r"<!-- FLASHBACK-START -->(.*?)<!-- FLASHBACK-END -->",
+            flashback_section,
+            existing_html,
+            flags=re.DOTALL,
+        )
     else:
-        updated_html = existing_html + new_section + "</body></html>"
+        # Append to bottom if no Flashback section exists
+        if "</body>" in existing_html:
+            updated_html = existing_html.replace("</body>", flashback_section + "\n</body>")
+        else:
+            updated_html = existing_html + flashback_section
+
 
     # Step 5: Save updated HTML
     with open(LOCAL_PATH, "w", encoding="utf-8") as f:
