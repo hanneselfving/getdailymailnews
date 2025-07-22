@@ -31,7 +31,7 @@ headers = {
 
 try:
     # Step 1: Scrape page
-    response = session.get(url, headers=headers)
+    response = session.get(url, headers=headers, timeout=10)
     response.raise_for_status()
     soup = BeautifulSoup(response.content, "html.parser")
 
