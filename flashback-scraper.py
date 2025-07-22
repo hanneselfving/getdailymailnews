@@ -67,7 +67,7 @@ try:
 
     swedish_time = datetime.now(ZoneInfo("Europe/Stockholm"))
     print(swedish_time.strftime("%Y-%m-%d %H:%M"))
-    flashback_section = f"<!-- FLASHBACK-START -->\n<h2>Top Threads on Flashback — {now}</h2><ol>"
+    flashback_section = f"<!-- FLASHBACK-START -->\n<h2>Top Threads on Flashback — {swedish_time}</h2><ol>"
     for article in top_results:
         flashback_section += f"<li><b>{article['text']}</b> — {article['readers']} läsare</li>"
     flashback_section += "</ol>\n<!-- FLASHBACK-END -->"
