@@ -10,7 +10,7 @@ import boto3
 import os
 
 # S3 config
-BUCKET_NAME = "ec2scraperstack-scrapersitebucketa4f75f29-lbpem4zyqdki"
+BUCKET_NAME = "ec2scraperstack-scrapersitebucketa4f75f29-lbpem4zyqdki "
 KEY = "index.html"
 LOCAL_PATH = "/tmp/index.html"
 
