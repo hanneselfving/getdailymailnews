@@ -60,7 +60,30 @@ try:
         with open(LOCAL_PATH, "r", encoding="utf-8") as f:
             existing_html = f.read()
     except Exception:
-        existing_html = "<html><meta charset='utf-8'><head><title>Top Commented Articles</title><style>body { font-family: sans-serif; padding: 2rem; } h1 { color: #444; } li { margin-bottom: 10px; }</style></head><body>"
+        existing_html = """<!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset='utf-8'>
+                <title>Top Commented Articles</title>
+                <style>
+                    body { font-family: sans-serif; padding: 2rem; }
+                    h1 { color: #444; }
+                    li { margin-bottom: 10px; }
+                </style>
+            </head>
+            <body>
+            <!-- DAILYMAIL-START -->
+            <h1>Top 10 Commented Articles</h1>
+            <ol>
+                <li>Daily Mail content goes here...</li>
+            </ol>
+            <!-- DAILYMAIL-END -->
+            
+            <!-- FLASHBACK-START -->
+            <!-- Will be replaced by Flashback scraper -->
+            <!-- FLASHBACK-END -->
+            </body>
+            </html>"""
 
      # Step 4: Create new Flashback section
     from zoneinfo import ZoneInfo
