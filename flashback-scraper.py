@@ -15,7 +15,9 @@ KEY = "index.html"
 LOCAL_PATH = "/tmp/index.html"
 
 # ScraperAPI config
-SCRAPERAPI_KEY = "795b300a8c3d0a5a5bb02f06c7beea44"
+SCRAPERAPI_KEY = os.getenv("SCRAPERAPI_KEY")
+if not SCRAPERAPI_KEY:
+    raise RuntimeError("SCRAPERAPI_KEY not set in environment.")
 TARGET_URL = "https://www.flashback.org/nya-amnen"
 SCRAPERAPI_URL = "https://api.scraperapi.com/"
 
