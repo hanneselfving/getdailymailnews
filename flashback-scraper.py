@@ -24,7 +24,7 @@ s3 = boto3.client("s3")
 
 # Create HTTP session with retries
 session = requests.Session()
-retry = Retry(total=5, backoff_factor=1, status_forcelist=[502, 503, 504])
+retry = Retry(total=5, backoff_factor=1, status_forcelist=[429, 502, 503, 504])
 adapter = HTTPAdapter(max_retries=retry)
 session.mount("http://", adapter)
 session.mount("https://", adapter) 
@@ -35,7 +35,7 @@ try:
         'api_key': SCRAPERAPI_KEY,
         'url': TARGET_URL
     }
-    response = session.get(SCRAPERAPI_URL, params=payload, timeout=10)
+    response = session.get(SCRAPERAPI_URL, params=payload, timeout=70)
     response.raise_for_status()
     response.encoding = "utf-8"  # Add this line
     soup = BeautifulSoup(response.content.decode('utf-8', errors='replace'), "html.parser")  # Use .text instead of .content
